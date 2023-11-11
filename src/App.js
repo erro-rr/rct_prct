@@ -10,7 +10,6 @@ import Contact from "./Components/Contact";
 import RestaurantMenu from "./Components/ResturantMenu";
 import Profile from "./Components/profile";
 
-
 const InstaMart=lazy(()=>import("./Components/InstaMart"));
 
 
@@ -20,9 +19,6 @@ const InstaMart=lazy(()=>import("./Components/InstaMart"));
 // Lazy Loading
 // On Demand Loading
 // Dynamic Import
-
-
-
 const Applayout = ()=>{
     return(
         // outlet
@@ -45,6 +41,7 @@ const appRouter=createBrowserRouter([
                 path:"/",
                 element:<Body/>,
             },
+
             {
                 path: "/about",
                 element: <About/>,
@@ -60,10 +57,12 @@ const appRouter=createBrowserRouter([
                 path: "/contact",
                 element: <Contact/>,
             },
+
             {
                 path: "/restaurant/:resId",
                 element: <RestaurantMenu/>,
             },
+            
             {
                 path: "/InstaMart",
                 element:(<Suspense fa>

@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"; // import useParams for read `resId`
+import Shimmer from "./Shimmer";
 import {
   swiggy_menu_api_URL,
   IMG_CDN_URL,
@@ -8,17 +9,18 @@ import {
   MENU_ITEM_TYPE_KEY,
   RESTAURANT_TYPE_KEY,
 } from "../Contants";   
-import Shimmer from "./Shimmer";
+
 
 const RestaurantMenu = () => {
   const { resId } = useParams(); // call useParams and get value of restaurant id using object destructuring
   const [restaurant, setRestaurant] = useState(null); // call useState to store the api data in res
   const [menuItems, setMenuItems] = useState([]);
   useEffect(() => {
-    getRestaurantInfo(); // call getRestaurantInfo function so it fetch api data and set data in restaurant state variable
+  getRestaurantInfo(); // call getRestaurantInfo function so it fetch api data and set data in restaurant state variable
   }, []);
-
   console.log(resId);
+
+
 
   async function getRestaurantInfo() {
     try {
@@ -28,10 +30,12 @@ const RestaurantMenu = () => {
       }
       const json = await response.json();
 
+
       // Set restaurant data
       const restaurantData = json?.data?.cards?.map(x => x.card)?.
                              find(x => x && x.card['@type'] === RESTAURANT_TYPE_KEY)?.card?.info || null;
       setRestaurant(restaurantData);
+
 
       // Set menu item data
       const menuItemsData = json?.data?.cards.find(x=> x.groupedCard)?.
@@ -39,15 +43,7 @@ const RestaurantMenu = () => {
                             cards?.map(x => x.card?.card)?.
                             filter(x=> x['@type'] == MENU_ITEM_TYPE_KEY)?.
                             map(x=> x.itemCards).flat().map(x=> x.card?.info) || [];
-      
-      // const uniqueMenuItems = [];
-      // menuItemsData.forEach((item) => {
-      //   if (!uniqueMenuItems.find(x => x.id === item.id)) {
-      //     uniqueMenuItems.push(item);
-      //   }
-      // })
       setMenuItems(menuItemsData);
-
       console.log("API Response:", json);
     } catch (error) {
       setMenuItems([]);
@@ -55,6 +51,8 @@ const RestaurantMenu = () => {
       console.log(error);
     }
   }
+
+
 
   return (!restaurant)? <Shimmer/> :(
     <div className="restaurant-menu">
@@ -65,16 +63,16 @@ const RestaurantMenu = () => {
           alt={restaurant?.name}
         />
         <div className="restaurant-summary-details">
-          <h2>{restaurant?.name}</h2>
-          <h3>{resId}</h3>
-          <p>{restaurant?.cuisines?.join(", ")}</p>
+            <h2>{restaurant?.name}</h2>
+            <h3>{resId}</h3>
+            <p>{restaurant?.cuisines?.join(", ")}</p>
             <i className="fa-solid fa-star"></i>
             <span>{restaurant?.avgRating}</span>
             <div>|</div>
             <div>{restaurant?.sla?.slaString}</div>
             <div>|</div>
             <div>{restaurant?.costForTwoMessage}</div>
-          </div>
+        </div>
       </div>
           <div className="menu-items-list">
             {menuItems.map((item) => (
@@ -83,7 +81,7 @@ const RestaurantMenu = () => {
               </div>
             ))}
           </div>
-        </div>
+    </div>
   );
 };
 

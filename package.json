@@ -4,7 +4,7 @@
   "description": "lecture4",
   "scripts": {
     "start": "parcel index.html",
-     "build": "parcel build index.html --dist-dir dist ",
+    "build": "parcel build index.html --dist-dir dist ",
     "test": "jest"
   },
   "repository": {
@@ -35,4 +35,5 @@
   "browserslist": [
     "last 10 versions"
   ]
+    
 }
